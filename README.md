@@ -1,16 +1,37 @@
-# np
+# 📝 Flutter Task Manager App
 
-A new Flutter project.
+A simple and clean **Task Management** app built using **Flutter** and **GetX** state management. Users can register, log in, and manage their daily tasks.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features
 
-A few resources to get you started if this is your first Flutter project:
+- 🔐 Rest API Authentication (Login / Signup / Logout)
+- 📋 Create, Update, and Delete Tasks
+- 🧠 State Management with GetX
+- 🗃️ Save user session with `shared_preferences`
+- 🎯 Clean and responsive UI
+- ☁️ Backend ready for integration (custom REST API)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📸 Screenshots
+
+| Login Page | Task List | Add Task |
+|------------|-----------|----------|
+| ![Login](screenshots/login.png) | ![Task List](screenshots/task_list.png) | ![Add Task](screenshots/add_task.png) |
+
+---
+
+## 📦 Packages Used
+
+| Package | Description |
+|--------|-------------|
+| `get` | State Management & Navigation |
+| `firebase_auth` | Firebase Authentication |
+| `shared_preferences` | Save local user data |
+| `http` | REST API integration |
+| `flutter_spinkit` | Loading animations |
+  
+
+---

@@ -17,9 +17,9 @@ A simple and clean **Task Management** app built using **Flutter** and **GetX** 
 
 ## 📸 Screenshots
 
-| Login Page                       | Task List                               | Add Task                              |
-|----------------------------------|-----------------------------------------|---------------------------------------|
-| ![Login](assets/images/logo.svg) | ![Task List](screenshots/task_list.png) | ![Add Task](screenshots/add_task.png) |
+| TaskManagerApp                                                                                                                                          |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ![Login](https://github.com/rupomsoft/Flutter-Batch/blob/main/Flutter/Source%20Code/25%20Task%20manager%20project/UI%20UX/Artboard%20%E2%80%93%201.png) |
 
 ---
 

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart';
 import 'package:np/app.dart';
@@ -27,7 +29,7 @@ class NetworkCaller extends GetxController{
     try {
       Uri uri = Uri.parse(url);
       debugPrint('URL => $uri');
-      Map<String, String> headers = {'token': AuthControllers.token ?? ''};
+      Map<String, String> headers = {'token': Get.find<AuthControllers>().token ?? ''};
       Response response = await get(uri, headers: headers);
       debugPrint('Status Code => ${response.statusCode}');
       debugPrint('Status Code => ${response.body}');
@@ -62,7 +64,7 @@ class NetworkCaller extends GetxController{
 
       Map<String, String> headers = {
         'content-type': 'application/json',
-        'token': AuthControllers.token ?? ''
+        'token': Get.find<AuthControllers>().token ?? ''
       };
       Response response =
           await post(uri, headers: headers, body: jsonEncode(body));
@@ -92,7 +94,7 @@ class NetworkCaller extends GetxController{
   }
 
   static void _moveToLoginScreen() async {
-    await AuthControllers.userLogout();
+    await Get.find<AuthControllers>().userLogout();
     Navigator.pushAndRemoveUntil(
         TaskManagerApp.navigatorState.currentContext!,
         MaterialPageRoute(builder: (context) => SignInScreen()),

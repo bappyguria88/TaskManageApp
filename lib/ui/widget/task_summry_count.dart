@@ -18,6 +18,8 @@ class CardSummaryCount extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(count,style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
             Text(title,style: const TextStyle(fontSize: 16,color: Colors.grey))

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:np/ui/controllers/new_task_controller.dart';
+import 'package:np/ui/controllers/task_status_count_controller.dart';
 import 'package:np/ui/screens/progress_task_screen.dart';
 import 'add_new_task_screens.dart';
 import 'cancle_task_screen.dart';
@@ -13,7 +17,6 @@ class MainBottomNavScreen extends StatefulWidget {
 }
 
 class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
-
   int _selectedIndex = 0;
   final List<Widget> _screens = const [
     NewTaskScreens(),
@@ -22,20 +25,16 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
     CancelTaskScreen()
   ];
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
-        onDestinationSelected: (int index){
+        onDestinationSelected: (int index) {
           _selectedIndex = index;
 
-          setState(() {
-
-          });
+          setState(() {});
         },
         destinations: const [
           NavigationDestination(icon: Icon(Icons.new_label), label: 'New'),
@@ -46,13 +45,18 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNewTaskScreens()));
+        onPressed: () {
+          Get.to(AddNewTaskScreens(
+            refreshNewList: () {
+              Get.find<NewTaskController>().getAllNewTaskList();
+            },
+            counRefershList: () {
+              Get.find<TaskStatusCountController>().getAllTaskStatusCount();
+            },
+          ));
         },
         child: const Icon(Icons.add),
       ),
     );
   }
 }
-
-

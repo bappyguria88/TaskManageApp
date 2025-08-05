@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:np/data/model/profile_updated_model.dart';
 import 'package:np/data/model/user_model.dart';
 import 'package:np/ui/controllers/auth_controllers.dart';
-import '../../data/service/network_caller.dart';
-import '../../utils/urls.dart';
-import '../widget/show_snack_bar_message.dart';
+import 'package:np/ui/controllers/profile_updated_controller.dart';
+import 'package:np/ui/widget/show_snack_bar_message.dart';
 import '../widget/tmapp_bar.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -23,15 +24,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late ImagePicker _imagePicker = ImagePicker();
-  XFile? _pickedImage;
-
-  bool profileUpdatedInProgress = false;
-
   @override
   void initState() {
     super.initState();
-    UserModel userModel = AuthControllers.userModel!;
+    UserModel userModel = Get.find<AuthControllers>().userModel!;
     _emailTEController.text = userModel.email;
     _firstNameTEController.text = userModel.firstName;
     _lastNameTEController.text = userModel.lastName;
@@ -123,13 +119,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(
                   height: 24,
                 ),
-                Visibility(
-                  replacement: CircularProgressIndicator(),
-                  visible: profileUpdatedInProgress == false,
-                  child: ElevatedButton(
-                    onPressed: onTapSubmitButton,
-                    child: const Icon(Icons.arrow_circle_right_outlined),
-                  ),
+                ElevatedButton(
+                  onPressed: onTapSubmitButton,
+                  child: const Icon(Icons.arrow_circle_right_outlined),
                 )
               ],
             ),
@@ -146,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Row(
           children: [
             GestureDetector(
-              onTap: onTapPhotoPicker,
+              onTap: (){},
               child: Container(
                 width: 100,
                 decoration: const BoxDecoration(
@@ -167,55 +159,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(
               width: 5,
             ),
-            Text(_pickedImage?.name ?? 'Selected Photo')
+            Text('Selected Photo')
           ],
         ),
       );
 
-  void onTapPhotoPicker() async {
-    XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      _pickedImage = image;
 
-      setState(() {});
-    }
-  }
 
   void onTapSubmitButton() {
     if (_formKey.currentState!.validate()) {
-      _profileUpdated();
+      _updatedProfile();
     }
   }
 
-  Future<void> _profileUpdated() async {
-    profileUpdatedInProgress = true;
-    setState(() {});
+  Future<void> _updatedProfile()async{
+    ProfileUpdated model = ProfileUpdated(firstName: _firstNameTEController.text.trim(), lsatName: _lastNameTEController.text.trim(), mobile: _mobileTEController.text.trim(), email: _emailTEController.text.trim());
+    await Get.find<ProfileUpdatedController>().updatedProfile(model);
 
-    Map<String, dynamic> requestBody = {
-      "email": _emailTEController.text,
-      "firstName": _firstNameTEController.text,
-      "lastName": _lastNameTEController.text,
-      "mobile": _mobileTEController.text,
-    };
-    if (_passwordTEController.text.isNotEmpty) {
-      requestBody['password'] = _passwordTEController.text;
-    }
-    if (_pickedImage != null) {
-      List<int> imagBytes = await _pickedImage!.readAsBytes();
-      String encodImage = base64Encode(imagBytes);
-      requestBody['photo'] = encodImage;
-    }
-
-    final NetworkResponse response = await NetworkCaller.postReqest(
-        url: Urls.profileUpdatedUrl, body: requestBody);
-
-    if (response.isSuccess) {
-      _passwordTEController.clear();
-      ShowSnackBarMessage(context, 'Registration Successfully!');
-    } else {
-      ShowSnackBarMessage(context, response.errorMessage);
-    }
-    profileUpdatedInProgress = false;
-    setState(() {});
-  }
-}
+}}

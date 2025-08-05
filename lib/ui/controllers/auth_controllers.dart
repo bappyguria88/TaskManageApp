@@ -1,26 +1,32 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:np/data/model/profile_updated_model.dart';
 import 'package:np/data/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthControllers {
-  static String? token;
-  static UserModel? userModel;
+class AuthControllers extends GetxController{
+   String? _token;
+   UserModel? _userModel;
+
+  String? get token => _token;
+  UserModel? get userModel => _userModel;
+
 
   static const String _tokenKey = 'token';
   static const String _userModelKey = 'user-data';
 
-  static Future<void> saveUserInformation(
+   Future<void> saveUserInformation(
       String accessToken, UserModel user) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString(_tokenKey, accessToken);
     sharedPreferences.setString(_userModelKey, jsonEncode(user.toJson()));
 
-    token = accessToken;
-    userModel = user;
+    _token = accessToken;
+    _userModel = user;
   }
 
-  static Future<void> getUserInformation() async {
+   Future<void> getUserInformation() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? accessToken = sharedPreferences.getString(_tokenKey);
     String? saveUserModelString = sharedPreferences.getString(_userModelKey);
@@ -29,12 +35,22 @@ class AuthControllers {
       UserModel saveUserModel =
           UserModel.fromJson(jsonDecode(saveUserModelString));
 
-      userModel = saveUserModel;
+      _userModel = saveUserModel;
     }
-    token = accessToken;
+    _token = accessToken;
   }
 
-  static Future<bool> chakeUserLoggedin() async {
+   void updateProfile({String? firstName, String? lastName, String? mobile, String? photo}) {
+     if (userModel != null) {
+       if (firstName != null) userModel!.firstName = firstName;
+       if (lastName != null) userModel!.lastName = lastName;
+       if (mobile != null) userModel!.mobile = mobile;
+       if (photo != null) userModel!.photo = photo;
+       update(); // এটি AppBar সহ GetBuilder ইউআই রিফ্রেশ করবে
+     }
+   }
+
+   Future<bool> chakeUserLoggedin() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userAccessToken = sharedPreferences.getString(_tokenKey);
     if (userAccessToken != null) {
@@ -44,11 +60,12 @@ class AuthControllers {
     return false;
   }
 
-  static Future<void> userLogout()async{
+   Future<void> userLogout()async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
 
-    token = null;
-    userModel = null;
+    _token = null;
+    _userModel = null;
   }
+
 }

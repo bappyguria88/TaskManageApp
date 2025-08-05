@@ -118,10 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
         children: [
           TextButton(
             onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ForgotPasswordEmailScreen()));
+              Get.off(ForgotPasswordEmailScreen());
             },
             child: const Text(
               'Forgot Password?',
@@ -141,10 +138,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   text: 'Sign Up',
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpScreen()));
+                      Get.off(SignUpScreen());
                     },
                   style: const TextStyle(color: AppColors.themeColor),
                 )

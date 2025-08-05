@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:np/ui/controllers/auth_controllers.dart';
 import 'package:np/ui/screens/main_bottom_nav_bar.dart';
 import 'package:np/ui/screens/sign_in_screen.dart';
@@ -23,11 +25,11 @@ class _SplashScreensState extends State<SplashScreens> {
 
   Future <void> moveToNextScreen()async{
     await Future.delayed(const Duration(seconds: 2));
-    final bool isLoginUser =await AuthControllers.chakeUserLoggedin();
+    final bool isLoginUser =await Get.find<AuthControllers>().chakeUserLoggedin();
     if(isLoginUser == true){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MainBottomNavScreen()));
+      Get.off(MainBottomNavScreen());
     }else{
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignInScreen()));
+      Get.off(SignInScreen());
     }
 
 

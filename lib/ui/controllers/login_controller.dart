@@ -28,7 +28,7 @@ class LoginController extends GetxController{
     if(response.isSuccess){
 
       LoginModel loginModel = LoginModel.fromJson(response.responseData!);
-      AuthControllers.saveUserInformation(loginModel.token,loginModel.userModel);
+      Get.find<AuthControllers>().saveUserInformation(loginModel.token,loginModel.userModel);
 
       isSuccess = true;
       _errorMessage = null;

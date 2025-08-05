@@ -40,7 +40,7 @@ class _TaskCardState extends State<TaskCard> {
           children: [
             Text(
               widget.taskModel.title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             Text(widget.taskModel.description),
             // TODO: Format it with DateFormatter (intl)
@@ -64,7 +64,7 @@ class _TaskCardState extends State<TaskCard> {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: (){
+                      onPressed: () {
                         _deleteTaskStatus();
                       },
                       icon: const Icon(Icons.delete),

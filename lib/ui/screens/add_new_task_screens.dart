@@ -3,13 +3,14 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:np/data/model/add_new_task_model.dart';
 import 'package:np/ui/controllers/add_new_task_controller.dart';
-import '../../data/service/network_caller.dart';
-import '../../utils/urls.dart';
 import '../widget/screen_background.dart';
-import '../widget/show_snack_bar_message.dart';
+
 
 class AddNewTaskScreens extends StatefulWidget {
-  const AddNewTaskScreens({super.key, });
+  const AddNewTaskScreens({super.key, required this.refreshNewList, required this.counRefershList, });
+
+  final VoidCallback refreshNewList;
+  final VoidCallback counRefershList;
 
   @override
   State<AddNewTaskScreens> createState() => _AddNewTaskScreensState();
@@ -20,7 +21,6 @@ class _AddNewTaskScreensState extends State<AddNewTaskScreens> {
   final TextEditingController _discTEController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _addNewTaskInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -107,10 +107,15 @@ class _AddNewTaskScreensState extends State<AddNewTaskScreens> {
 
   Future<void> _addNewTaskButton() async {
     if (_formKey.currentState!.validate()) {
+
       final AddNewTaskModel addNewTaskModel = AddNewTaskModel(title: _titleTEController.text.trim(), description: _discTEController.text.trim(),stastus: 'New');
 
       final bool isSuccess = await Get.find<AddNewTaskController>().addNewTask(addNewTaskModel);
+      if(isSuccess){
 
+        widget.counRefershList();
+        widget.refreshNewList();
+      }
       if(isSuccess){
         _clearTextFile();
       }

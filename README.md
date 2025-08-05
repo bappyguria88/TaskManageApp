@@ -15,6 +15,7 @@ A simple and clean **Task Management** app built using **Flutter** and **GetX** 
 
 ---
 
+
 ## 📸 Screenshots
 
 | TaskManagerApp                                                                                                                                          |
